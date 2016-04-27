@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder ".", "/home/vagrant/sync", type: "virtualbox"
-  config.vm.synced_folder "../modules", "/vagrant_data"
+  # config.vm.synced_folder "../modules", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -75,6 +75,8 @@ Vagrant.configure(2) do |config|
     cp /vagrant/files/vimrc /home/vagrant/.vimrc
   SHELL
   config.vm.provision :puppet do |puppet|
+    puppet.environment_path = "environments"
+    puppet.environment = "sandbox"
     puppet.module_path = "modules"
     puppet.options = ['--verbose']
   end
