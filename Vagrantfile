@@ -78,7 +78,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision :puppet do |puppet|
     puppet.environment_path = "environments"
     puppet.environment = "sandbox"
-    #puppet.module_path = "modules"
     puppet.options = ['--verbose']
   end
 end
