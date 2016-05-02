@@ -1,21 +1,26 @@
-node 'default' {
+class docker {
 
-	class { 'java': 
-	}
-	class { 'ruby':
-		gems_version => 'latest',
-	}
-	class { 'ruby::dev':
-		rake_ensure => 'installed',
-		bundler_ensure => 'installed',
-	}
+	package { 'lvm2':
+		ensure => 'absent',
+		}
 
-	file { "/etc/sudoers":
-		mode => '0400',
+	file { "/etc/yum.repos.d/docker.repo":
+		mode => '0644',
 		owner => 'root',
 		group => 'root',
-		source => "file:///vagrant/files/etc/sudoers",
-	}
+		source => "file:///vagrant/files/etc/yum.repos.d/docker.repo",
+		}
+	package { 'docker-engine':
+		ensure => 'latest',
+		}
+	service { 'docker':
+		ensure => 'running',
+		enable => 'true',
+		}
+	File['/etc/yum.repos.d/docker.repo'] -> Package['lvm2'] -> Package['docker-engine'] -> Service['docker']
+}
+
+class devtools {
 
 	#wrap this up in a custom module later
 	package { 'rspec-puppet':
@@ -34,4 +39,36 @@ node 'default' {
 	package { 'mariadb-libs' :
 		ensure => 'installed',
 	}
+	package { 'gcc-c++' :
+		ensure => 'latest',
+	}
+	package { 'tree':
+		ensure => 'latest',
+	}
+	package { 'git':
+		ensure => 'latest',
+	}
+}
+
+node 'default' {
+
+	class { 'java': 
+	}
+	class { 'ruby':
+		gems_version => 'latest',
+	}
+	class { 'ruby::dev':
+		rake_ensure => 'installed',
+		bundler_ensure => 'installed',
+	}
+
+	file { "/etc/sudoers":
+		mode => '0440',
+		owner => 'root',
+		group => 'root',
+		source => "file:///vagrant/files/etc/sudoers",
+	}
+
+	class { 'docker': }
+	class { 'devtools': }
 }
