@@ -17,6 +17,10 @@ class docker {
 		ensure => 'running',
 		enable => 'true',
 		}
+	user { 'vagrant':
+		ensure => present,
+		groups => [ 'docker'],
+		} # this really should be moved to a user module for the vagrant user
 	File['/etc/yum.repos.d/docker.repo'] -> Package['lvm2'] -> Package['docker-engine'] -> Service['docker']
 }
 
