@@ -12,7 +12,11 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "puppetlabs/centos-7.0-64-nocm"
+  config.vm.box = "bento/centos-7.2"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -71,7 +75,7 @@ Vagrant.configure(2) do |config|
     echo "role=web" > /opt/puppetlabs/facter/facts.d/deploy.txt
     echo "deploy_path=ESC/DeploymentDemo/ESC-DeploymentDemo-trunk/web" >> /opt/puppetlabs/facter/facts.d/deploy.txt
     #cp /vagrant/files/bash_profile /root/.bash_profile
-    #cp /vagrant/files/bash_profile /home/vagrant/.bash_profile
+    cp /vagrant/files/etc/yum.conf /etc/yum.conf
     cp /vagrant/files/vimrc /root/.vimrc
     cp /vagrant/files/vimrc /home/vagrant/.vimrc
   SHELL
