@@ -74,7 +74,7 @@ Vagrant.configure(2) do |config|
     echo "role=web" > /opt/puppetlabs/facter/facts.d/deploy.txt
     echo "deploy_path=ESC/DeploymentDemo/ESC-DeploymentDemo-trunk/web" >> /opt/puppetlabs/facter/facts.d/deploy.txt
     #cp /vagrant/files/bash_profile /root/.bash_profile
-    cp /vagrant/files/etc/yum.conf /etc/yum.conf
+    #cp /vagrant/files/etc/yum.conf /etc/yum.conf #moved to site.pp
     cp /vagrant/files/vimrc /root/.vimrc
     cp /vagrant/files/vimrc /home/vagrant/.vimrc
   SHELL

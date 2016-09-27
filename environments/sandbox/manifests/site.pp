@@ -66,6 +66,13 @@ node 'default' {
 		bundler_ensure => 'installed',
 	}
 
+	file { "/etc/yum.conf":
+		mode => '0644',
+		owner => 'root',
+		group => 'root',
+		source => "file:///vagrant/files/etc/yum.conf",
+	}
+
 	file { "/etc/sudoers":
 		mode => '0440',
 		owner => 'root',
