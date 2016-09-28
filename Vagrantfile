@@ -69,14 +69,13 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+    cp /vagrant/files/etc/yum.conf /etc/yum.conf
+    cp /vagrant/files/vimrc /root/.vimrc
+    cp /vagrant/files/vimrc /home/vagrant/.vimrc
     sudo rpm -i https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
     sudo yum -y install puppet-agent
     echo "role=web" > /opt/puppetlabs/facter/facts.d/deploy.txt
     echo "deploy_path=ESC/DeploymentDemo/ESC-DeploymentDemo-trunk/web" >> /opt/puppetlabs/facter/facts.d/deploy.txt
-    #cp /vagrant/files/bash_profile /root/.bash_profile
-    cp /vagrant/files/etc/yum.conf /etc/yum.conf
-    cp /vagrant/files/vimrc /root/.vimrc
-    cp /vagrant/files/vimrc /home/vagrant/.vimrc
   SHELL
   config.vm.provision :puppet do |puppet|
     puppet.environment_path = "environments"
